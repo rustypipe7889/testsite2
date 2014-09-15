@@ -1,0 +1,134 @@
+ <!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="test2.css">
+</head>
+<body>
+	<div id="header">
+	<img src="logo.png"></img>
+	<button id="narrowbtn" class="headerbtn">Narrow</button>
+	<button id="widenbtn" class="headerbtn">Wide</button>
+	</div>
+
+	<div id="instructions" class="midrow">
+		<b>Customer Information</b><br>
+		<br>
+		The Customer labtown is looking to purchase a new storage system and has hired you to create a
+		logical design.  Labtown requires no single points of failure when it comes to the fabric connecting
+		the storage.  Labtown has already decided that the new storage system will be using fibre to re-use
+		as much of the previous hardware as possible to increase ROI.  Labotwn would also like a tired disk 
+		system broken into three categories with the database sitting in the fastest tier, the two web servers
+		sitting in the medium tier, and the file server sitting in the slowest tier.
+		<br></br>
+		Create a logical design for Labtowns new Storage System
+		<br></br>
+		Requirements
+		<br></br>
+		-  Create a tiered storage system for Labtown
+		-  No single points of failure
+		-  Insure storage performance SLA's are met with the four line of business VM's
+		<br></br>
+		Instructions
+		<br>-  Place VM's on the bottom of the page and connect them with the connector to the storage LUN
+		they will belong to.
+		<br>
+		-  Connect the stroage LUN with the service processor with the connector
+		<br>
+		-  Connect the storage processors to the SAN switch
+		<br>
+		-  Place HBA's just below the host, as long as they are close to the host points will be scored
+		<br>
+		-  Connect HBA's to SAN switches with either the Fixed, MRU, or RR Connector to dictate the PSP
+		Policy for storage on the ESXi host.
+		
+	</div>
+
+	<div id="workspace" class="midrow">
+		<div id="workspace-target" class="workspace-target">
+			<div class="window" id="sourceWindow1">
+                <strong>Window 1</strong>
+                <a href="#" id="enableDisableSource">disable</a>
+            </div>
+            <div class="window smallWindow" id="targetWindow2"><strong>Window 2</strong><br/><br/></div>
+            <div class="window smallWindow" id="targetWindow3"><strong>Window 3</strong><br/><br/></div>
+            <div class="window smallWindow" id="targetWindow4"><strong>Window 4</strong><br/><br/></div>
+            <div class="window smallWindow" id="targetWindow5"><strong>Window 5</strong><br/><br/></div>
+			<div class="window smallWindow" id="targetWindow6"><strong>Window 6</strong><br/><br/></div>
+		</div>
+	</div>
+
+	<div id="footer">
+	<img src="bottomlogo.png">
+	</div>
+	<div id="startoverbtn" class="footerbtn">
+		<button>Start Over</button>
+	</div>
+	<div class="footerbtn">
+		<button>Undo</button>
+	</div>
+	<div id="createbtn" class="footerbtn" onClick="document.getElementById('rootmenu').style.visibility='visible';">
+	<button>Create</button>
+	</div>
+	
+	<div id="rootmenu" name="menu" style="visibility:hidden">
+			<button>Hosts</button><br>
+			<button onClick="showmenu('portgroupmenu')">Port Groups</button><br>
+			<button onClick="showmenu('switchesmenu')">Switches</button><br>
+			<button onClick="showmenu('storagemenu')">Storage</button><br>
+			<button onClick="showmenu('connectionsmenu')">Connections</button><br>
+			<button onClick="showmenu('vmmenu')">VM</button><br>
+			<button onClick="showmenu('adaptersmenu')">Adapters</button><br>
+	</div>
+	<div id="adaptersmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
+		<button onclick="spawnsource(); hidemenus();">PCI Slot</button><br>
+		<button onclick="spawnsource(); hidemenus();">1 Port HBA</button><br>
+		<button onclick="spawnsource(); hidemenus();">2 Port HBA</button><br>
+		<button onclick="spawnsource(); hidemenus();">1 Port NIC</button><br>
+		<button onclick="spawnsource(); hidemenus();">2 Port NIC</button><br>
+		<button onclick="spawnsource(); hidemenus();">4 Port NIC</button><br>
+	</div>
+	<div id="vmmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
+		<button onclick="spawnsource(); hidemenus();">Database VM</button><br>
+		<button onclick="spawnsource(); hidemenus();">Webserver VM</button><br>
+		<button onclick="spawnsource(); hidemenus();">Fileserver VM</button><br>
+		<button onclick="spawnsource(); hidemenus();">ExtraVM1</button><br>
+		<button onclick="spawnsource(); hidemenus();">ExtraVM2</button><br>
+	</div>
+	<div id="connectionsmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
+		<button onclick="spawnsource(); hidemenus();">Standard Connection</button><br>
+		<button onclick="spawnsource(); hidemenus();">RR Connection</button><br>
+		<button onclick="spawnsource(); hidemenus();">MRU Connection</button><br>
+		<button onclick="spawnsource(); hidemenus();">Fixed Connection</button><br>
+		<button onclick="spawnsource(); hidemenus();">Extra Connection</button><br>
+	</div>
+		<div id="storagemenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
+		<button onclick="spawnsource(); hidemenus();">Service Processor</button><br>
+		<button onclick="spawnsource(); hidemenus();">Gold Storage</button><br>
+		<button onclick="spawnsource(); hidemenus();">Silver Storage</button><br>
+		<button onclick="spawnsource(); hidemenus();">Bronze Storage</button><br>
+		<button onclick="spawnsource(); hidemenus();">Extra Storage</button><br>
+	</div>
+		<div id="switchesmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
+		<button onclick="spawntarget(); hidemenus();">Virtual Distributed Switch</button><br>
+		<button onclick="spawntarget(); hidemenus();">Virtual Standard Switch</button><br>
+		<button onclick="spawntarget(); hidemenus();">Physical Switch</button><br>
+		<button onclick="spawntarget(); hidemenus();">SAN Switch</button><br>
+		<button onclick="spawntarget(); hidemenus();">Extraswitch</button><br>
+	</div>
+	</div>
+		<div id="portgroupmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
+		<button onclick="spawnsource(); hidemenus();">MGMT Portgroup</button><br>
+		<button onclick="spawnsource(); hidemenus();">FT Portgroup</button><br>
+		<button onclick="spawnsource(); hidemenus();">iSCSI Portgroup</button><br>
+		<button onclick="spawnsource(); hidemenus();">DMZ Portgroup</button><br>
+		<button onclick="spawnsource(); hidemenus();">VM Net Portgroup</button><br>
+	</div>
+	
+	<script src="jquery-1.9.0-min.js"></script>
+<script src="jquery-ui-1.9.2.min.js"></script>
+<script src="jquery.ui.touch-punch-0.2.2.min.js"></script>
+<script src="jquery.jsPlumb-1.6.4-min.js"></script>
+<script type="text/javascript" src="workspace.js"></script>
+<script type="text/javascript" src="test.js"></script>
+
+</body>
+</html> 
