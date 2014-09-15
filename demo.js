@@ -1,76 +1,143 @@
-jsPlumb.ready(function() {			
+jsPlumb.ready(function() {
 
-	// list of possible anchor locations for the blue source element
-	var sourceAnchors = [
-		[ 0, 1, 0, 1 ],
-		[ 0.25, 1, 0, 1 ],
-		[ 0.5, 1, 0, 1 ],
-		[ 0.75, 1, 0, 1 ],
-		[ 1, 1, 0, 1 ]				
-	];
-    
-    var instance = window.instance = jsPlumb.getInstance({
-    	// set default anchors.  the 'connect' calls below will pick these up, and in fact setting these means
-    	// that you also do not need to supply anchor definitions to the makeSource or makeTarget functions. 
-        Anchors : [ sourceAnchors, "TopCenter" ],
-    	// drag options
-    	DragOptions : { cursor: "pointer", zIndex:2000 },
-		// default to blue at source and green at target
-		EndpointStyles : [{ fillStyle:"#0d78bc" }, { fillStyle:"#558822" }],
-		// blue endpoints 7 px; green endpoints 11.
-		Endpoints : [ ["Dot", { radius:7 } ], [ "Dot", { radius:11 } ] ],
-		// default to a gradient stroke from blue to green.  for IE provide all green fallback.
-		PaintStyle : {
-        	gradient:{ stops:[ [ 0, "#0d78bc" ], [ 1, "#558822" ] ] },
-        	strokeStyle:"#558822",
-        	lineWidth:10
-    	},
-    	Container:"source-target-demo"
-    });
-
-	// click listener for the enable/disable link.
-    jsPlumb.on(document.getElementById("enableDisableSource"), "click", function(e) {
-		var state = instance.toggleSourceEnabled("sourceWindow1");
-		this.innerHTML = (state ? "disable" : "enable");
-		jsPlumbUtil.consume(e);
+	var instance = jsPlumb.getInstance({
+		// default drag options
+		DragOptions : { cursor: 'pointer', zIndex:2000 },
+		// the overlays to decorate each connection with.  note that the label overlay uses a function to generate the label text; in this
+		// case it returns the 'labelText' member that we set on each connection in the 'init' method below.
+		ConnectionOverlays : [
+		//	[ "Arrow", { location:1 } ],
+			[ "Label", { 
+				location:0.1,
+				id:"label",
+				cssClass:"aLabel"
+			}]
+		],
+		Container:"flowchart-demo"
 	});
 
-    // bind to a connection event, just for the purposes of pointing out that it can be done.
-	instance.bind("connection", function(i,c) { 
-		if (typeof console !== "undefined")
-			console.log("connection", i.connection); 
-	});
+	// this is the paint style for the connecting lines..
+	var connectorPaintStyle = {
+		lineWidth:3,
+		strokeStyle:"#000000",
+		joinstyle:"round",
+		outlineColor:"white",
+		outlineWidth:2
+	},
+	// .. and this is the hover style. 
+	connectorHoverStyle = {
+		lineWidth:4,
+		strokeStyle:"#216477",
+		outlineWidth:2,
+		outlineColor:"white"
+	},
+	endpointHoverStyle = {
+		fillStyle:"#216477",
+		strokeStyle:"#216477"
+	},
+	// the definition of source endpoints (the small blue ones)
+	sourceEndpoint = {
+		endpoint:"Dot",
+		paintStyle:{ 
+			strokeStyle:"#7AB02C",
+			fillStyle:"transparent",
+			radius:7,
+			lineWidth:3 
+		},				
+		isSource:true,
+		connector:[ "Flowchart", { stub:[40, 60], gap:10, cornerRadius:5, alwaysRespectStubs:true } ],								                
+		connectorStyle:connectorPaintStyle,
+		hoverPaintStyle:endpointHoverStyle,
+		connectorHoverStyle:connectorHoverStyle,
+        dragOptions:{},
+        overlays:[
+        	[ "Label", { 
+            	location:[0.5, 1.5], 
+            	label:"Drag",
+            	cssClass:"endpointSourceLabel" 
+            } ]
+        ]
+	},		
+	// the definition of target endpoints (will appear when the user drags a connection) 
+	targetEndpoint = {
+		endpoint:"Dot",					
+		paintStyle:{ fillStyle:"#7AB02C",radius:11 },
+		hoverPaintStyle:endpointHoverStyle,
+		maxConnections:-1,
+		dropOptions:{ hoverClass:"hover", activeClass:"active" },
+		isTarget:true,			
+        overlays:[
+        	[ "Label", { location:[0.5, -0.5], label:"Drop", cssClass:"endpointTargetLabel" } ]
+        ]
+	},			
+	init = function(connection) {			
+		connection.getOverlay("label").setLabel(connection.sourceId.substring(15) + "-" + connection.targetId.substring(15));
+		connection.bind("editCompleted", function(o) {
+			if (typeof console != "undefined")
+				console.log("connection edited. path is now ", o.path);
+		});
+	};			
 
-    // get the list of ".smallWindow" elements.            
-	var smallWindows = jsPlumb.getSelector(".smallWindow");
-	// make them draggable
-	instance.draggable(smallWindows);
+	var _addEndpoints = function(toId, sourceAnchors, targetAnchors) {
+			for (var i = 0; i < sourceAnchors.length; i++) {
+				var sourceUUID = toId + sourceAnchors[i];
+				instance.addEndpoint("flowchart" + toId, sourceEndpoint, { anchor:sourceAnchors[i], uuid:sourceUUID });						
+			}
+			for (var j = 0; j < targetAnchors.length; j++) {
+				var targetUUID = toId + targetAnchors[j];
+				instance.addEndpoint("flowchart" + toId, targetEndpoint, { anchor:targetAnchors[j], uuid:targetUUID });						
+			}
+		};
 
-    // suspend drawing and initialise.
-    instance.doWhileSuspended(function() {
+	// suspend drawing and initialise.
+	instance.doWhileSuspended(function() {
 
-        // make 'window1' a connection source. notice the filter parameter: it tells jsPlumb to ignore drags
-		// that started on the 'enable/disable' link on the blue window.
-		instance.makeSource("sourceWindow1", {
-			//anchor:sourceAnchors,		// you could supply this if you want, but it was set in the defaults above.							
-			filter:function(evt, el) {
-				var t = evt.target || evt.srcElement;
-				return t.tagName !== "A";
-			},
-			isSource:true
+	//	_addEndpoints("Window4", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);			
+		_addEndpoints("Window2", ["LeftMiddle", "BottomCenter"], ["TopCenter", "RightMiddle"]);
+	//	_addEndpoints("Window3", ["RightMiddle", "BottomCenter"], ["LeftMiddle", "TopCenter"]);
+	//	_addEndpoints("Window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
+					
+		// listen for new connections; initialise them the same way we initialise the connections at startup.
+		instance.bind("connection", function(connInfo, originalEvent) { 
+			init(connInfo.connection);
 		});			
+					
+		// make all the window divs draggable						
+		instance.draggable(jsPlumb.getSelector(".flowchart-demo .window"), { grid: [20, 20] });		
+		// THIS DEMO ONLY USES getSelector FOR CONVENIENCE. Use your library's appropriate selector 
+		// method, or document.querySelectorAll:
+		//jsPlumb.draggable(document.querySelectorAll(".window"), { grid: [20, 20] });
         
-		// configure the .smallWindows as targets.
-		instance.makeTarget(smallWindows, {
-			//anchor:"TopCenter",				// you could supply this if you want, but it was set in the defaults above.					
-			dropOptions:{ hoverClass:"hover" },
-            uniqueEndpoint:true
+		// connect a few up
+		/*instance.connect({uuids:["Window2BottomCenter", "Window3TopCenter"], editable:true});
+		instance.connect({uuids:["Window2LeftMiddle", "Window4LeftMiddle"], editable:true});
+		instance.connect({uuids:["Window4TopCenter", "Window4RightMiddle"], editable:true});
+		instance.connect({uuids:["Window3RightMiddle", "Window2RightMiddle"], editable:true});
+		instance.connect({uuids:["Window4BottomCenter", "Window1TopCenter"], editable:true});
+		instance.connect({uuids:["Window3BottomCenter", "Window1BottomCenter"], editable:true});*/
+		//
+        
+		//
+		// listen for clicks on connections, and offer to delete connections on click.
+		//
+		instance.bind("click", function(conn, originalEvent) {
+		//	if (confirm("Delete connection from " + conn.sourceId + " to " + conn.targetId + "?"))
+				jsPlumb.detach(conn); 
 		});	
+		
+		instance.bind("connectionDrag", function(connection) {
+			console.log("connection " + connection.id + " is being dragged. suspendedElement is ", connection.suspendedElement, " of type ", connection.suspendedElementType);
+		});		
+		
+		instance.bind("connectionDragStop", function(connection) {
+			console.log("connection " + connection.id + " was dragged");
+		});
 
-        // and finally connect a couple of small windows, just so its obvious what's going on when this demo loads.           
-        instance.connect({ source:"sourceWindow1", target:"targetWindow5" });
-        instance.connect({ source:"sourceWindow1", target:"targetWindow2" });	
+		instance.bind("connectionMoved", function(params) {
+			console.log("connection " + params.connection.id + " was moved");
+		});
 	});
 
 	jsPlumb.fire("jsPlumbDemoLoaded", instance);
-});	
+	
+});

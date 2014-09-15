@@ -1,6 +1,9 @@
  <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" href="test2.css">
+<head>
+	<link rel="stylesheet" href="jsplumb.css">
+	<link rel="stylesheet" href="demo.css">
+	
 </head>
 <body>
 	<div id="header">
@@ -42,22 +45,21 @@
 		
 	</div>
 
-	<div id="workspace" class="midrow">
-		<div id="workspace-target" class="workspace-target">
-			<div class="window" id="sourceWindow1">
-                <strong>Window 1</strong>
-                <a href="#" id="enableDisableSource">disable</a>
+	<div id="main">
+            <!-- demo -->
+            <div class="demo flowchart-demo" id="flowchart-demo">
+                <div class="window pic" id="flowchartWindow1"><strong>1</strong><br/><br/></div>
+                <div class="window" id="flowchartWindow2"><strong>2</strong><br/><br/></div>
+				
             </div>
-            <div class="window smallWindow" id="targetWindow2"><strong>Window 2</strong><br/><br/></div>
-            <div class="window smallWindow" id="targetWindow3"><strong>Window 3</strong><br/><br/></div>
-            <div class="window smallWindow" id="targetWindow4"><strong>Window 4</strong><br/><br/></div>
-            <div class="window smallWindow" id="targetWindow5"><strong>Window 5</strong><br/><br/></div>
-			<div class="window smallWindow" id="targetWindow6"><strong>Window 6</strong><br/><br/></div>
+            <!-- /demo -->
+    </div>
+            
 		</div>
 	</div>
 
 	<div id="footer">
-	<img src="bottomlogo.png">
+		<img src="bottomlogo.png">
 	</div>
 	<div id="startoverbtn" class="footerbtn">
 		<button>Start Over</button>
@@ -124,11 +126,11 @@
 	</div>
 	
 	<script src="jquery-1.9.0-min.js"></script>
-<script src="jquery-ui-1.9.2.min.js"></script>
-<script src="jquery.ui.touch-punch-0.2.2.min.js"></script>
-<script src="jquery.jsPlumb-1.6.4-min.js"></script>
-<script type="text/javascript" src="workspace.js"></script>
-<script type="text/javascript" src="test.js"></script>
+	<script src="jquery-ui-1.9.2.min.js"></script>
+	<script src="jquery.ui.touch-punch-0.2.2.min.js"></script>
+	<script src="jquery.jsPlumb-1.6.4-min.js"></script>
+	<script src="demo.js"></script>
+	<script src="test.js"></script>
 
 </body>
 </html> 
