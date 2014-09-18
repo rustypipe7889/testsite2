@@ -1,6 +1,6 @@
 jsPlumb.ready(function() {
 
-	var instance = jsPlumb.getInstance({
+	instance = jsPlumb.getInstance({
 		// default drag options
 		DragOptions : { cursor: 'pointer', zIndex:2000 },
 		// the overlays to decorate each connection with.  note that the label overlay uses a function to generate the label text; in this
@@ -95,7 +95,7 @@ jsPlumb.ready(function() {
 	//	_addEndpoints("Window4", ["TopCenter", "BottomCenter"], ["LeftMiddle", "RightMiddle"]);			
 		_addEndpoints("Window2", ["LeftMiddle", "BottomCenter"], ["TopCenter", "RightMiddle"]);
 	//	_addEndpoints("Window3", ["RightMiddle", "BottomCenter"], ["LeftMiddle", "TopCenter"]);
-	//	_addEndpoints("Window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
+		_addEndpoints("Window1", ["LeftMiddle", "RightMiddle"], ["TopCenter", "BottomCenter"]);
 					
 		// listen for new connections; initialise them the same way we initialise the connections at startup.
 		instance.bind("connection", function(connInfo, originalEvent) { 
@@ -117,6 +117,10 @@ jsPlumb.ready(function() {
 		instance.connect({uuids:["Window3BottomCenter", "Window1BottomCenter"], editable:true});*/
 		//
         
+		
+		
+		
+		
 		//
 		// listen for clicks on connections, and offer to delete connections on click.
 		//

@@ -3,6 +3,9 @@
 <head>
 	<link rel="stylesheet" href="jsplumb.css">
 	<link rel="stylesheet" href="demo.css">
+	<script type="text/javascript">
+	var instance;
+	</script>
 	
 </head>
 <body>
@@ -45,10 +48,10 @@
 		
 	</div>
 
-	<div id="main">
+	<div id="main" onClick="hidemenus();">
             <!-- demo -->
             <div class="demo flowchart-demo" id="flowchart-demo">
-                <div class="window pic" id="flowchartWindow1"><strong>1</strong><br/><br/></div>
+                <div class="window object storage" id="flowchartWindow1"><strong>1</strong><br/><br/></div>
                 <div class="window" id="flowchartWindow2"><strong>2</strong><br/><br/></div>
 				
             </div>
@@ -62,12 +65,12 @@
 		<img src="bottomlogo.png">
 	</div>
 	<div id="startoverbtn" class="footerbtn">
-		<button>Start Over</button>
+		<button onClick="document.getElementById('flowchart-demo').innerHTML='';">Start Over</button>
 	</div>
 	<div class="footerbtn">
-		<button>Undo</button>
+		<button onClick="alert('I am just a demo. Please understand.');">Undo</button>
 	</div>
-	<div id="createbtn" class="footerbtn" onClick="document.getElementById('rootmenu').style.visibility='visible';">
+	<div id="createbtn" class="footerbtn" onClick="document.getElementById('rootmenu').style.visibility='visible';//spawnobject('gold storage');">
 	<button>Create</button>
 	</div>
 	
@@ -81,55 +84,55 @@
 			<button onClick="showmenu('adaptersmenu')">Adapters</button><br>
 	</div>
 	<div id="adaptersmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
-		<button onclick="spawnsource(); hidemenus();">PCI Slot</button><br>
-		<button onclick="spawnsource(); hidemenus();">1 Port HBA</button><br>
-		<button onclick="spawnsource(); hidemenus();">2 Port HBA</button><br>
-		<button onclick="spawnsource(); hidemenus();">1 Port NIC</button><br>
-		<button onclick="spawnsource(); hidemenus();">2 Port NIC</button><br>
-		<button onclick="spawnsource(); hidemenus();">4 Port NIC</button><br>
+		<button onclick="spawnobject(); hidemenus();">PCI Slot</button><br>
+		<button onclick="spawnobject(); hidemenus();">1 Port HBA</button><br>
+		<button onclick="spawnobject(); hidemenus();">2 Port HBA</button><br>
+		<button onclick="spawnobject(); hidemenus();">1 Port NIC</button><br>
+		<button onclick="spawnobject(); hidemenus();">2 Port NIC</button><br>
+		<button onclick="spawnobject(); hidemenus();">4 Port NIC</button><br>
 	</div>
 	<div id="vmmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
-		<button onclick="spawnsource(); hidemenus();">Database VM</button><br>
-		<button onclick="spawnsource(); hidemenus();">Webserver VM</button><br>
-		<button onclick="spawnsource(); hidemenus();">Fileserver VM</button><br>
-		<button onclick="spawnsource(); hidemenus();">ExtraVM1</button><br>
-		<button onclick="spawnsource(); hidemenus();">ExtraVM2</button><br>
+		<button onclick="spawnobject(); hidemenus();">Database VM</button><br>
+		<button onclick="spawnobject(); hidemenus();">Webserver VM</button><br>
+		<button onclick="spawnobject(); hidemenus();">Fileserver VM</button><br>
+		<button onclick="spawnobject(); hidemenus();">ExtraVM1</button><br>
+		<button onclick="spawnobject(); hidemenus();">ExtraVM2</button><br>
 	</div>
 	<div id="connectionsmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
-		<button onclick="spawnsource(); hidemenus();">Standard Connection</button><br>
-		<button onclick="spawnsource(); hidemenus();">RR Connection</button><br>
-		<button onclick="spawnsource(); hidemenus();">MRU Connection</button><br>
-		<button onclick="spawnsource(); hidemenus();">Fixed Connection</button><br>
-		<button onclick="spawnsource(); hidemenus();">Extra Connection</button><br>
+		<button onclick="connectorPaintStyle['strokeStyle']='#0000aa'; showPoints(); hidemenus();">Standard Connection</button><br>
+		<button onclick="spawnobject(); hidemenus();">RR Connection</button><br>
+		<button onclick="spawnobject(); hidemenus();">MRU Connection</button><br>
+		<button onclick="spawnobject(); hidemenus();">Fixed Connection</button><br>
+		<button onclick="spawnobject(); hidemenus();">Extra Connection</button><br>
 	</div>
 		<div id="storagemenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
-		<button onclick="spawnsource(); hidemenus();">Service Processor</button><br>
-		<button onclick="spawnsource(); hidemenus();">Gold Storage</button><br>
-		<button onclick="spawnsource(); hidemenus();">Silver Storage</button><br>
-		<button onclick="spawnsource(); hidemenus();">Bronze Storage</button><br>
-		<button onclick="spawnsource(); hidemenus();">Extra Storage</button><br>
+		<button onclick="spawnobject(); hidemenus();">Service Processor</button><br>
+		<button onclick="spawnobject('gold storage'); hidemenus();">Gold Storage</button><br>
+		<button onclick="spawnobject(); hidemenus();">Silver Storage</button><br>
+		<button onclick="spawnobject(); hidemenus();">Bronze Storage</button><br>
+		<button onclick="spawnobject(); hidemenus();">Extra Storage</button><br>
 	</div>
 		<div id="switchesmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
-		<button onclick="spawntarget(); hidemenus();">Virtual Distributed Switch</button><br>
-		<button onclick="spawntarget(); hidemenus();">Virtual Standard Switch</button><br>
-		<button onclick="spawntarget(); hidemenus();">Physical Switch</button><br>
-		<button onclick="spawntarget(); hidemenus();">SAN Switch</button><br>
-		<button onclick="spawntarget(); hidemenus();">Extraswitch</button><br>
+		<button onclick="spawnobject(); hidemenus();">Virtual Distributed Switch</button><br>
+		<button onclick="spawnobject(); hidemenus();">Virtual Standard Switch</button><br>
+		<button onclick="spawnobject(); hidemenus();">Physical Switch</button><br>
+		<button onclick="spawnobject(); hidemenus();">SAN Switch</button><br>
+		<button onclick="spawnobject(); hidemenus();">Extraswitch</button><br>
 	</div>
 	</div>
 		<div id="portgroupmenu" class="submenu submenubtn" style="visibility:hidden" name="menu">
-		<button onclick="spawnsource(); hidemenus();">MGMT Portgroup</button><br>
-		<button onclick="spawnsource(); hidemenus();">FT Portgroup</button><br>
-		<button onclick="spawnsource(); hidemenus();">iSCSI Portgroup</button><br>
-		<button onclick="spawnsource(); hidemenus();">DMZ Portgroup</button><br>
-		<button onclick="spawnsource(); hidemenus();">VM Net Portgroup</button><br>
+		<button onclick="spawnobject(); hidemenus();">MGMT Portgroup</button><br>
+		<button onclick="spawnobject(); hidemenus();">FT Portgroup</button><br>
+		<button onclick="spawnobject(); hidemenus();">iSCSI Portgroup</button><br>
+		<button onclick="spawnobject(); hidemenus();">DMZ Portgroup</button><br>
+		<button onclick="spawnobject(); hidemenus();">VM Net Portgroup</button><br>
 	</div>
 	
 	<script src="jquery-1.9.0-min.js"></script>
 	<script src="jquery-ui-1.9.2.min.js"></script>
 	<script src="jquery.ui.touch-punch-0.2.2.min.js"></script>
 	<script src="jquery.jsPlumb-1.6.4-min.js"></script>
-	<script src="demo.js"></script>
+	<!--<script src="demo.js"></script>-->
 	<script src="test.js"></script>
 
 </body>

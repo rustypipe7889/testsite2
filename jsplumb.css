@@ -207,20 +207,26 @@ path, ._jsPlumb_endpoint { cursor:pointer; }
     color:black;
     padding:0.5em;
     width:80px; 
-    height:80px;
-    line-height: 80px;     
+    height:80px;    
     -webkit-transition: -webkit-box-shadow 0.15s ease-in;
     -moz-transition: -moz-box-shadow 0.15s ease-in;
     -o-transition: -o-box-shadow 0.15s ease-in;
     transition: box-shadow 0.15s ease-in;
 }
 
-.pic {
+.object {
 	position: absolute;
 	top: 200px;
 	left: 100px;
-	width=50px;
-	background-image: url('storage.png');
+}
+
+.gold{
+background-image: url('storage.png');	
+}
+
+.storage {
+width: 58px;
+height: 53px;
 }
 
 .window:hover {
